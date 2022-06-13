@@ -26,6 +26,7 @@ import com.example.parstagram31.Models.Post;
 import com.example.parstagram31.Utils.CameraHandler;
 import com.example.parstagram31.databinding.ActivityMainBinding;
 import com.example.parstagram31.fragments.ComposeFragment;
+import com.example.parstagram31.fragments.FeedFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.parse.LogOutCallback;
@@ -50,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        ComposeFragment compose = new ComposeFragment();
+        FeedFragment feed = new FeedFragment();
 
         binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
 
@@ -58,8 +60,10 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.compose:
-                        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, new ComposeFragment()).commit();
+                        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, compose).commit();
                         return true;
+                    case R.id.feed:
+                        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, feed).commit();
                     default:
                         return true;
                 }

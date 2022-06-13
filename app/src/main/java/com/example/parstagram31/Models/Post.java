@@ -2,6 +2,7 @@ package com.example.parstagram31.Models;
 
 import android.util.Log;
 
+import com.example.parstagram31.Adapter.PostAdapter;
 import com.parse.FindCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
@@ -43,18 +44,12 @@ public class Post extends ParseObject {
         put(KEY_USER, user);
     }
 
-    public static void queryPosts() {
+    public static void queryPosts(FindCallback<Post> callback) {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(KEY_USER);
-        query.findInBackground((posts, e) -> {
-            if(e != null) {
-                Log.i("POST", "error has occured" + e);
-                return;
-            }
-            for(Post post : posts) {
-                Log.i("TAG", post.getDescription() + post.getUser().getUsername());
-            }
-        });
+        query.setLimit(20);
+        query.addDescendingOrder("createdAt");
+        query.findInBackground(callback);
     }
 
 }
