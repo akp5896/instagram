@@ -7,4 +7,9 @@
     <string name="description">Description</string>
     <string name="take_photo">TAKE PHOTO</string>
     <string name="submit">submit</string>
+    <string name="feed">feed</string>
+    <string name="profile">profile</string>
+    <string name="compose">compose</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
