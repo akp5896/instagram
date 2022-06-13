@@ -31,21 +31,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:id="@+id/btnLogin"
+        android:id="@+id/btnSignUp"
         app:layout_constraintTop_toBottomOf="@+id/etPass"
-        android:text="@string/login"
+        android:text="@string/sign_up"
         />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogin"
-        android:id="@+id/tvSignUp"
-        android:autofillHints="@string/enter_login"
-        android:text="SignUp"
-        android:gravity="center"
-        android:textColor="@color/black"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        />
 </androidx.constraintlayout.widget.ConstraintLayout>

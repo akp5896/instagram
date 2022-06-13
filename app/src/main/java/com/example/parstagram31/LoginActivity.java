@@ -26,12 +26,9 @@ public class LoginActivity extends AppCompatActivity {
             toMainActivity();
         }
 
-        binding.btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                login();
-            }
-        });
+        binding.btnLogin.setOnClickListener(v -> login());
+
+        binding.tvSignUp.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, SignUpActivity.class)));
     }
 
     private void login() {
