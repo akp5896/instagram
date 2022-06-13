@@ -4,4 +4,7 @@
     <string name="login">LOGIN</string>
     <string name="sign_up">Sign up</string>
     <string name="logout">logout</string>
+    <string name="description">Description</string>
+    <string name="take_photo">TAKE PHOTO</string>
+    <string name="submit">submit</string>
 </resources>
