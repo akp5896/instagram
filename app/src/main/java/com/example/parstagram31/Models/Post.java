@@ -21,6 +21,8 @@ public class Post extends ParseObject {
     public static final String KEY_DESCRIPTION = "description";
     public static final String KEY_IMAGE = "image";
     public static final String KEY_USER = "user";
+    public static final String KEY_LIKES = "likes";
+    public static final String KEY_LIKED = "liked";
 
     public void setDescription(String description) {
         put(KEY_DESCRIPTION, description);
@@ -44,6 +46,22 @@ public class Post extends ParseObject {
 
     public void setUser(ParseUser user) {
         put(KEY_USER, user);
+    }
+    public void like() {
+        increment(KEY_LIKES);
+        put(KEY_LIKED, true);
+    }
+
+    public void unlike() {
+        increment(KEY_LIKES, -1);
+        put(KEY_LIKED, false);
+    }
+
+    public boolean getLiked() {
+        return getBoolean(KEY_LIKED);
+    }
+    public Integer getLikes() {
+        return getInt(KEY_LIKES);
     }
 
     public static void queryPosts(FindCallback<Post> callback) {

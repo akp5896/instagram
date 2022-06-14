@@ -36,10 +36,27 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ufi_heart"
+            android:id="@+id/ivLike"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/tvLikes"
+            android:text="0"
+            android:textSize="26sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivLike"
+            />
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivLike"
             app:layout_constraintBottom_toTopOf="@+id/btnSend"
             android:id="@+id/rvComments"
             />

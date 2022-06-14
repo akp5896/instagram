@@ -79,5 +79,35 @@ public class DetailsActivity extends AppCompatActivity {
                 });
             }
         });
+
+        setLikeColor();
+        binding.tvLikes.setText(post.getLikes().toString());
+
+        binding.ivLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(post.getLiked()) {
+                    post.unlike();
+                }
+                else {
+                    post.like();
+                }
+                post.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        setLikeColor();
+                        binding.tvLikes.setText(post.getLikes().toString());
+                    }
+                });
+            }
+        });
+    }
+
+    private void setLikeColor() {
+        if (post.getLiked()) {
+            binding.ivLike.setColorFilter(getResources().getColor(R.color.red));
+        } else {
+            binding.ivLike.setColorFilter(getResources().getColor(R.color.black));
+        }
     }
 }
