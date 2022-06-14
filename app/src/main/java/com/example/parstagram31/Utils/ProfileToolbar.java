@@ -33,7 +33,9 @@ public class ProfileToolbar {
 
         try {
             ParseFile parseFile = ParseUser.getCurrentUser().fetch().getParseFile("image");
-            Glide.with(context).load(parseFile.getUrl()).transform(new RoundedCorners(50)).into(binding.ivBanner);
+            if(parseFile != null) {
+                Glide.with(context).load(parseFile.getUrl()).transform(new RoundedCorners(50)).into(binding.ivBanner);
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }

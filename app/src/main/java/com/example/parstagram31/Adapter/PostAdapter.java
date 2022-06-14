@@ -10,12 +10,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.parstagram31.DetailsActivity;
 import com.example.parstagram31.MainActivity;
 import com.example.parstagram31.Models.Post;
+import com.example.parstagram31.ProfileActivity;
 import com.example.parstagram31.R;
 import com.example.parstagram31.databinding.ItemPostBinding;
+import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
 
 import org.parceler.Parcels;
 
@@ -83,8 +87,29 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 binding.ivImage.setVisibility(View.GONE);
             }
 
+            ParseFile parseFile = null;
+            try {
+                parseFile = post.getUser().fetch().getParseFile("image");
+                if(parseFile != null) {
+                    Glide.with(context).load(parseFile.getUrl()).transform(new RoundedCorners(50)).into(binding.ivProfilePicture);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
             binding.tvDescription.setOnClickListener(getNavigationListener(post));
             binding.ivImage.setOnClickListener(getNavigationListener(post));
+            binding.tvUsername.setOnClickListener(getUserListener(post));
+            binding.ivProfilePicture.setOnClickListener(getUserListener(post));
+        }
+
+        @NonNull
+        private View.OnClickListener getUserListener(Post post) {
+            return v -> {
+                Intent i = new Intent(context, ProfileActivity.class);
+                i.putExtra("user", Parcels.wrap(post.getUser()));
+                context.startActivity(i);
+            };
         }
 
         @NonNull
