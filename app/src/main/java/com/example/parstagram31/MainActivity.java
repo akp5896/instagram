@@ -33,14 +33,10 @@ import com.parse.SaveCallback;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MAIN ACTIVITY";
-    public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
-    public final static int PICK_PHOTO_CODE = 1046;
-
 
     ActivityMainBinding binding;
     final FragmentManager fragmentManager = getSupportFragmentManager();
     GalleryHandler handler;
-    ActivityResultLauncher<Intent> launcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +47,10 @@ public class MainActivity extends AppCompatActivity {
         FeedFragment feed = new FeedFragment();
 
         handler = new GalleryHandler(this, binding.header);
-        launcher = handler.getGalleryLauncher();
 
         ProfileToolbar.Initialize(binding.header, this);
 
-        binding.header.ivBanner.setOnClickListener(v -> launcher.launch(Intent.createChooser(handler.onPickPhoto(), "Select Picture")));
+        binding.header.ivBanner.setOnClickListener(v -> handler.launcher.launch(Intent.createChooser(handler.onPickPhoto(), "Select Picture")));
 
         binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
 

@@ -24,12 +24,13 @@ import java.io.IOException;
 
 public class GalleryHandler {
     private final HeaderBinding headerBinding;
-    ;
+    public ActivityResultLauncher<Intent> launcher;
     AppCompatActivity activity;
 
     public GalleryHandler(AppCompatActivity activity, HeaderBinding headerBinding) {
         this.activity = activity;
         this.headerBinding = headerBinding;
+        getGalleryLauncher();
     }
 
     // Trigger gallery selection for a photo
@@ -41,8 +42,8 @@ public class GalleryHandler {
         return intent;
     }
 
-    public ActivityResultLauncher<Intent> getGalleryLauncher() {
-        return activity.registerForActivityResult(
+    public void getGalleryLauncher() {
+        launcher = activity.registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
