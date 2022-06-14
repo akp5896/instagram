@@ -54,4 +54,13 @@ public class Post extends ParseObject {
         query.findInBackground(callback);
     }
 
+    public static void queryPostsByUser(FindCallback<Post> callback, ParseUser currentUser) {
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.include(KEY_USER);
+        query.whereEqualTo(KEY_USER, currentUser);
+        query.setLimit(20);
+        query.addDescendingOrder("createdAt");
+        query.findInBackground(callback);
+    }
+
 }

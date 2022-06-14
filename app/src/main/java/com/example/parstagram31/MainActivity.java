@@ -24,6 +24,7 @@ import com.example.parstagram31.Utils.ProfileToolbar;
 import com.example.parstagram31.databinding.ActivityMainBinding;
 import com.example.parstagram31.fragments.ComposeFragment;
 import com.example.parstagram31.fragments.FeedFragment;
+import com.example.parstagram31.fragments.ProfileFragment;
 import com.google.android.material.navigation.NavigationBarView;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         ComposeFragment compose = new ComposeFragment();
         FeedFragment feed = new FeedFragment();
+        ProfileFragment profile = new ProfileFragment();
 
         handler = new GalleryHandler(this, ProfileToolbar.getHeaderCallback(binding.header, this));
 
@@ -66,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                         fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, feed).commit();
                         return true;
                     case R.id.profile:
+                        fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, profile).commit();
                         return true;
                     default:
                         return true;
