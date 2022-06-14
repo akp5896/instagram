@@ -62,7 +62,7 @@ public class ComposeFragment extends Fragment {
         Post post = new Post();
         post.setDescription(description);
         post.setUser(currentUser);
-        post.setImage(handler.bitmapToParseFile());
+        post.setImage(CameraHandler.bitmapToParseFile(handler.getImageToUpload()));
         post.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {

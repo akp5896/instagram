@@ -68,6 +68,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             // Bind the post data to the view elements
             binding.tvDescription.setText(post.getDescription());
             binding.tvUsername.setText(post.getUser().getUsername());
+            binding.tvTime.setText(post.getCreatedAt().toString());
             ParseFile image = post.getImage();
             if (image != null) {
                 binding.ivImage.setVisibility(View.VISIBLE);

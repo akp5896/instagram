@@ -81,14 +81,14 @@ public class CameraHandler {
 
 
     @Nullable
-    public ParseFile bitmapToParseFile() {
-        if(imageToUpload == null)
+    public static ParseFile bitmapToParseFile(Bitmap image) {
+        if(image == null)
             return null;
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        imageToUpload.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        image.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byte[] bitmapBytes = stream.toByteArray();
 
-        ParseFile image = new ParseFile("myImage", bitmapBytes);
-        return image;
+        ParseFile result = new ParseFile("myImage", bitmapBytes);
+        return result;
     }
 }

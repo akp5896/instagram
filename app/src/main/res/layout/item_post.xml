@@ -13,6 +13,12 @@
         android:text="TextView"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         tools:text="rahul" />
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        tools:text="rahul" />
 
     <ImageView
         android:id="@+id/ivImage"
