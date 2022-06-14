@@ -72,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        binding.bottomNavigation.setSelectedItemId(R.id.feed);
     }
 
     @Override

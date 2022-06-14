@@ -48,7 +48,13 @@ public class ComposeFragment extends Fragment {
             savePost(binding.etDescription.getText().toString(), ParseUser.getCurrentUser());
         });
 
-        binding.btnTakePhoto.setOnClickListener(v -> handler.launcher.launch(Intent.createChooser(handler.launchCamera(), "Select Picture")));
+
+        if(handler == null) {
+            Log.e("COMPOSE FRAGMENT", "No handler attached! Photo opportunities disabled.");
+        }
+        else {
+            binding.btnTakePhoto.setOnClickListener(v -> handler.launcher.launch(Intent.createChooser(handler.launchCamera(), "Select Picture")));
+        }
     }
 
     private void savePost(String description, ParseUser currentUser) {

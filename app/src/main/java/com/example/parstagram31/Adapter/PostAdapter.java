@@ -1,6 +1,7 @@
 package com.example.parstagram31.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +10,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.parstagram31.DetailsActivity;
+import com.example.parstagram31.MainActivity;
 import com.example.parstagram31.Models.Post;
 import com.example.parstagram31.R;
 import com.example.parstagram31.databinding.ItemPostBinding;
 import com.parse.ParseFile;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -77,6 +82,18 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             else {
                 binding.ivImage.setVisibility(View.GONE);
             }
+
+            binding.tvDescription.setOnClickListener(getNavigationListener(post));
+            binding.ivImage.setOnClickListener(getNavigationListener(post));
+        }
+
+        @NonNull
+        private View.OnClickListener getNavigationListener(Post post) {
+            return v -> {
+                Intent i = new Intent(context, DetailsActivity.class);
+                i.putExtra("post", Parcels.wrap(post));
+                context.startActivity(i);
+            };
         }
     }
 }
