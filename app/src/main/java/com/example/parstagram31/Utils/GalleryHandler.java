@@ -1,5 +1,6 @@
 package com.example.parstagram31.Utils;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.ImageDecoder;
@@ -8,15 +9,27 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.view.View;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.parstagram31.databinding.HeaderBinding;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.io.IOException;
 
-public class GalleryHandler { ;
+public class GalleryHandler {
+    private final HeaderBinding headerBinding;
+    ;
     AppCompatActivity activity;
 
-    public GalleryHandler(AppCompatActivity activity) {
+    public GalleryHandler(AppCompatActivity activity, HeaderBinding headerBinding) {
         this.activity = activity;
+        this.headerBinding = headerBinding;
     }
 
     // Trigger gallery selection for a photo
@@ -26,6 +39,34 @@ public class GalleryHandler { ;
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         return intent;
+    }
+
+    public ActivityResultLauncher<Intent> getGalleryLauncher() {
+        return activity.registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            if ((result.getData() != null)) {
+                                Uri photoUri = result.getData().getData();
+
+                                // Load the image located at photoUri into selectedImage
+                                Bitmap selectedImage = loadFromUri(photoUri);
+
+                                ParseUser user = ParseUser.getCurrentUser();
+                                user.put("image", CameraHandler.bitmapToParseFile(selectedImage));
+                                user.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        // Load the selected image into a preview
+                                        headerBinding.ivBanner.setImageBitmap(selectedImage);
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
     }
 
     public Bitmap loadFromUri(Uri photoUri) {

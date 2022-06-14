@@ -4,18 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.InetAddresses;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
-import com.example.parstagram31.BitmapScaler;
-import com.example.parstagram31.MainActivity;
 import com.parse.ParseFile;
 
 import java.io.ByteArrayOutputStream;

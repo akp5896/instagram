@@ -1,4 +1,4 @@
-package com.example.parstagram31;
+package com.example.parstagram31.Utils;
 
 import android.graphics.Bitmap;
 

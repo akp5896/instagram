@@ -20,13 +20,6 @@ public class ProfileToolbar {
         activity.setSupportActionBar(binding.toolbar);
         activity.getSupportActionBar().setTitle("");
         setBanner(context, binding);
-
-        binding.ivBanner.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
     }
 
     public static void setBanner(Context context, HeaderBinding binding) {
