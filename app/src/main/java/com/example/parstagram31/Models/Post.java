@@ -23,6 +23,11 @@ public class Post extends ParseObject {
     public static final String KEY_USER = "user";
     public static final String KEY_LIKES = "likes";
     public static final String KEY_LIKED = "liked";
+    private static int limit = 20;
+
+    public static void setLimit(int limit) {
+        Post.limit = limit;
+    }
 
     public void setDescription(String description) {
         put(KEY_DESCRIPTION, description);
@@ -64,10 +69,11 @@ public class Post extends ParseObject {
         return getInt(KEY_LIKES);
     }
 
-    public static void queryPosts(FindCallback<Post> callback) {
+    public static void queryPosts(FindCallback<Post> callback, int skip) {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(KEY_USER);
-        query.setLimit(20);
+        query.setSkip(skip);
+        query.setLimit(limit);
         query.addDescendingOrder("createdAt");
         query.findInBackground(callback);
     }
@@ -76,7 +82,7 @@ public class Post extends ParseObject {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(KEY_USER);
         query.whereEqualTo(KEY_USER, currentUser);
-        query.setLimit(20);
+        query.setLimit(limit);
         query.addDescendingOrder("createdAt");
         query.findInBackground(callback);
     }

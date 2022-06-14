@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import com.example.parstagram31.Adapter.PostAdapter;
 import com.example.parstagram31.Models.Post;
 import com.example.parstagram31.R;
+import com.example.parstagram31.Utils.EndlessRecyclerViewScrollListener;
 import com.example.parstagram31.databinding.FragmentFeedBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -28,6 +30,7 @@ public class FeedFragment extends Fragment {
     FragmentFeedBinding binding;
     private PostAdapter adapter;
     private List<Post> allPosts;
+    private EndlessRecyclerViewScrollListener scrollListener;
 
     public FeedFragment() {
         // Required empty public constructor
@@ -41,14 +44,15 @@ public class FeedFragment extends Fragment {
         adapter = new PostAdapter(getActivity(), allPosts);
         binding.rvPosts.setAdapter(adapter);
         // set the layout manager on the recycler view
-        binding.rvPosts.setLayoutManager(new LinearLayoutManager(getActivity()));
-        Post.queryPosts(getPost());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        binding.rvPosts.setLayoutManager(linearLayoutManager);
+        Post.queryPosts(getPost(), 0);
 
         binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
 
             public void onRefresh() {
-                Post.queryPosts(getPost());
+                Post.queryPosts(getPost(), 0);
                 binding.swipeContainer.setRefreshing(false);
             }
         });
@@ -56,6 +60,19 @@ public class FeedFragment extends Fragment {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                loadNextDataFromApi(page);
+            }
+        };
+        // Adds the scroll listener to RecyclerView
+        binding.rvPosts.addOnScrollListener(scrollListener);
+    }
+
+    private void loadNextDataFromApi(int page) {
+        Post.queryPosts(getPost(), page);
+        Log.d("FEED FRAGMENT", "LOADED");
     }
 
     @NonNull
