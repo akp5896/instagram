@@ -38,19 +38,21 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     final FragmentManager fragmentManager = getSupportFragmentManager();
     GalleryHandler handler;
+    ComposeFragment compose;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        ComposeFragment compose = new ComposeFragment();
+        compose = new ComposeFragment();
         FeedFragment feed = new FeedFragment();
         ProfileFragment profile = new ProfileFragment();
 
         handler = new GalleryHandler(this, ProfileToolbar.getHeaderCallback(binding.header, this));
 
         compose.setCameraHandler(new CameraHandler(this, compose.ComposeCallback()));
+
 
         ProfileToolbar.Initialize(binding.header, this);
 
@@ -84,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

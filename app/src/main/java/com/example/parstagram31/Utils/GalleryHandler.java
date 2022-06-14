@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 
+import androidx.activity.ComponentActivity;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -18,7 +19,7 @@ import java.io.IOException;
 
 public class GalleryHandler {
     public ActivityResultLauncher<Intent> launcher;
-    AppCompatActivity activity;
+    ComponentActivity activity;
 
     public GalleryHandler(AppCompatActivity activity, ActivityResultCallback<ActivityResult> callback) {
         this.activity = activity;

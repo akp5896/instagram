@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -40,6 +41,7 @@ public class ComposeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        binding.pbProgressAction.setVisibility(View.INVISIBLE);
         binding.btnsubmit.setOnClickListener(v -> {
             if(binding.etDescription.getText() == null || binding.etDescription.getText().toString().equals("")) {
                 Toast.makeText(getActivity(), "no description", Toast.LENGTH_SHORT).show();
@@ -58,6 +60,7 @@ public class ComposeFragment extends Fragment {
     }
 
     private void savePost(String description, ParseUser currentUser) {
+        binding.pbProgressAction.setVisibility(View.VISIBLE);
         Post post = new Post();
         post.setDescription(description);
         post.setUser(currentUser);
@@ -72,6 +75,7 @@ public class ComposeFragment extends Fragment {
                 }
                 binding.etDescription.setText(null);
                 binding.ivPhoto.setImageBitmap(null);
+                binding.pbProgressAction.setVisibility(View.INVISIBLE);
             }
         });
     }
