@@ -46,7 +46,9 @@ public class MainActivity extends AppCompatActivity {
         ComposeFragment compose = new ComposeFragment();
         FeedFragment feed = new FeedFragment();
 
-        handler = new GalleryHandler(this, binding.header);
+        handler = new GalleryHandler(this, ProfileToolbar.getHeaderCallback(binding.header, this));
+
+        compose.setCameraHandler(new CameraHandler(this, compose.ComposeCallback()));
 
         ProfileToolbar.Initialize(binding.header, this);
 
@@ -72,27 +74,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-    //    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if ((data != null) && requestCode == PICK_PHOTO_CODE) {
-//            Uri photoUri = data.getData();
-//
-//            // Load the image located at photoUri into selectedImage
-//            Bitmap selectedImage = handler.loadFromUri(photoUri);
-//
-//            ParseUser user = ParseUser.getCurrentUser();
-//            user.put("image", CameraHandler.bitmapToParseFile(selectedImage));
-//            user.saveInBackground(new SaveCallback() {
-//                @Override
-//                public void done(ParseException e) {
-//                    // Load the selected image into a preview
-//                    binding.header.ivBanner.setImageBitmap(selectedImage);
-//                }
-//            });
-//        }
-//        super.onActivityResult(requestCode, resultCode, data);
-//    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);

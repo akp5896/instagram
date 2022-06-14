@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -23,20 +25,16 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.parceler.Parcels;
+
 public class ComposeFragment extends Fragment {
 
     FragmentComposeBinding binding;
     CameraHandler handler;
-    public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     private String TAG = "COMPOSE FRAGMENT";
 
     public ComposeFragment() {
         // Required empty public constructor
-    }
-
-    public static ComposeFragment newInstance(String param1, String param2) {
-        ComposeFragment fragment = new ComposeFragment();
-        return fragment;
     }
 
     @Override
@@ -50,12 +48,7 @@ public class ComposeFragment extends Fragment {
             savePost(binding.etDescription.getText().toString(), ParseUser.getCurrentUser());
         });
 
-        binding.btnTakePhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForResult(handler.launchCamera(), CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-            }
-        });
+        binding.btnTakePhoto.setOnClickListener(v -> handler.launcher.launch(Intent.createChooser(handler.launchCamera(), "Select Picture")));
     }
 
     private void savePost(String description, ParseUser currentUser) {
@@ -77,29 +70,15 @@ public class ComposeFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.i("called", "called");
-        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                // by this point we have the camera photo on disk
-
-                // RESIZE BITMAP, see section below
-                // Load the taken image into a preview
-                handler.onActivityResult();
-                binding.ivPhoto.setImageBitmap(handler.getImageToUpload());
-
-            } else { // Result was a failure
-                Toast.makeText(getActivity(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
+    public static ComposeFragment newInstance(CameraHandler cameraHandler) {
+        ComposeFragment fragment = new ComposeFragment();
+        fragment.handler = cameraHandler;
+        return  fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        handler = new CameraHandler(getActivity(), CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
     }
 
 
@@ -109,5 +88,24 @@ public class ComposeFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentComposeBinding.inflate(getLayoutInflater());
         return binding.getRoot();
+    }
+
+    @NonNull
+    public ActivityResultCallback<ActivityResult> ComposeCallback() {
+        return new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    handler.onActivityResult();
+                    binding.ivPhoto.setImageBitmap(handler.getImageToUpload());
+                } else {
+                    Toast.makeText(getActivity(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+    }
+
+    public void setCameraHandler(CameraHandler cameraHandler) {
+        this.handler = cameraHandler;
     }
 }

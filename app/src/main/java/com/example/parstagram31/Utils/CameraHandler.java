@@ -9,10 +9,20 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import androidx.activity.ComponentActivity;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.FragmentActivity;
 
+import com.example.parstagram31.databinding.FragmentFeedBinding;
+import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -22,13 +32,13 @@ public class CameraHandler {
     private static final String TAG = "CAMERA";
     public String photoFileName = "photo.jpg";
     private File photoFile;
+    public ActivityResultLauncher<Intent> launcher;
     Bitmap imageToUpload = null;
-    Activity activity;
-    public final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE;
+    ComponentActivity activity;
 
-    public CameraHandler(Activity activity, int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+    public CameraHandler(ComponentActivity activity, ActivityResultCallback<ActivityResult> callback) {
         this.activity = activity;
-        this.CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE;
+        getCameraLauncher(callback);
     }
 
     public Bitmap getImageToUpload() {
@@ -73,6 +83,12 @@ public class CameraHandler {
         Bitmap resizedBitmap = BitmapScaler.scaleToFitWidth(takenImage, 300);
         imageToUpload = resizedBitmap;
         return resizedBitmap;
+    }
+
+    public void getCameraLauncher(ActivityResultCallback<ActivityResult> callack) {
+        launcher = activity.registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                callack);
     }
 
 

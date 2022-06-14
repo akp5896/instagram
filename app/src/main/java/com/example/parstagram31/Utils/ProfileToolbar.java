@@ -1,8 +1,14 @@
 package com.example.parstagram31.Utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.view.View;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
@@ -11,6 +17,7 @@ import com.example.parstagram31.databinding.HeaderBinding;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 public class ProfileToolbar {
     private static final String TAG = "Profile setup";
@@ -31,6 +38,33 @@ public class ProfileToolbar {
             e.printStackTrace();
         }
 
+    }
+
+    @NonNull
+    public static ActivityResultCallback<ActivityResult> getHeaderCallback(HeaderBinding binding, Activity loadActivity) {
+        return new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    if ((result.getData() != null)) {
+                        Uri photoUri = result.getData().getData();
+
+                        // Load the image located at photoUri into selectedImage
+                        Bitmap selectedImage = GalleryHandler.loadFromUri(photoUri, loadActivity);
+
+                        ParseUser user = ParseUser.getCurrentUser();
+                        user.put("image", CameraHandler.bitmapToParseFile(selectedImage));
+                        user.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                // Load the selected image into a preview
+                                binding.ivBanner.setImageBitmap(selectedImage);
+                            }
+                        });
+                    }
+                }
+            }
+        };
     }
 }
 
