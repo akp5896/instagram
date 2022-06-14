@@ -1,22 +1,33 @@
 package com.example.parstagram31;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
+import com.example.parstagram31.Adapter.CommentAdapter;
+import com.example.parstagram31.Models.Comment;
 import com.example.parstagram31.Models.Post;
 import com.example.parstagram31.databinding.ActivityDetailsBinding;
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.parceler.Parcel;
 import org.parceler.Parcels;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DetailsActivity extends AppCompatActivity {
 
     ActivityDetailsBinding binding;
     Post post;
+    List<Comment> comments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,5 +48,36 @@ public class DetailsActivity extends AppCompatActivity {
         else {
             binding.ivImage.setVisibility(View.GONE);
         }
+
+        comments = new ArrayList<>();
+        CommentAdapter adapter = new CommentAdapter(this, comments);
+        binding.rvComments.setAdapter(adapter);
+        binding.rvComments.setLayoutManager(new LinearLayoutManager(this));
+        Comment.queryCommentToPost(new FindCallback<Comment>() {
+            @Override
+            public void done(List<Comment> objects, ParseException e) {
+                comments.addAll(objects);
+                adapter.notifyDataSetChanged();
+            }
+        }, post);
+
+        binding.btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Comment comment = new Comment();
+                comment.setCommentTo(post);
+                comment.setAuthor(ParseUser.getCurrentUser());
+                comment.setContent(binding.etInput.getText().toString());
+                comment.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        comments.add(0, comment);
+                        adapter.notifyItemInserted(0);
+                        binding.rvComments.smoothScrollToPosition(0);
+                        binding.etInput.setText(null);
+                    }
+                });
+            }
+        });
     }
 }

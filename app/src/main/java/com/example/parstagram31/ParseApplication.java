@@ -11,6 +11,7 @@ public class ParseApplication extends Application {
         super.onCreate();
 
         ParseObject.registerSubclass(com.example.parstagram31.Models.Post.class);
+        ParseObject.registerSubclass(com.example.parstagram31.Models.Comment.class);
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId("rOjXNt9ZmyxiJiG4SdzTCcNjyuasH3ksdwdoJzCm")
                 .clientKey("lsMJyi7LyN0jnEaQO9DCFcybOotF7ubjobN2KDJb")
