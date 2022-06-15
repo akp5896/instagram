@@ -3,6 +3,7 @@ package com.example.parstagram31.Models;
 import android.util.Log;
 
 import com.example.parstagram31.Adapter.PostAdapter;
+import com.parse.CountCallback;
 import com.parse.FindCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
@@ -85,6 +86,12 @@ public class Post extends ParseObject {
         query.setLimit(limit);
         query.addDescendingOrder("createdAt");
         query.findInBackground(callback);
+    }
+
+    public static void countPostsByUser(CountCallback callback, ParseUser currentUser) {
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.whereEqualTo(KEY_USER, currentUser);
+        query.countInBackground(callback);
     }
 
 }

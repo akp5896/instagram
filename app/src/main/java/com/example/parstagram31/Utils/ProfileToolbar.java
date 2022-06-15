@@ -13,7 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.example.parstagram31.Models.Post;
 import com.example.parstagram31.databinding.HeaderBinding;
+import com.parse.CountCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -27,6 +29,16 @@ public class ProfileToolbar {
         activity.setSupportActionBar(binding.toolbar);
         activity.getSupportActionBar().setTitle("");
         setBanner(context, binding);
+        setPostCount(binding);
+    }
+
+    private static void setPostCount(HeaderBinding binding) {
+        Post.countPostsByUser(new CountCallback() {
+            @Override
+            public void done(int count, ParseException e) {
+                binding.tvPostsCount.setText(String.valueOf(count));
+            }
+        }, ParseUser.getCurrentUser());
     }
 
     public static void setBanner(Context context, HeaderBinding binding) {

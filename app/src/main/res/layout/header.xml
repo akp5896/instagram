@@ -29,6 +29,26 @@
                     app:layout_collapseMode="parallax"
                     android:minHeight="100dp"
                     android:layout_margin="5dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="656"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_toEndOf="@+id/ivBanner"
+                    android:id="@+id/tvPostsCount"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="posts"
+                    android:layout_marginTop="-10dp"
+                    android:textSize="18sp"
+                    android:layout_toEndOf="@+id/ivBanner"
+                    android:layout_below="@+id/tvPostsCount"
+                    />
+
             </RelativeLayout>
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
