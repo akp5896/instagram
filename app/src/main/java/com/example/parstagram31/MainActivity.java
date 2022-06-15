@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -64,12 +65,15 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.compose:
+                        binding.header.appbar.setVisibility(View.GONE);
                         fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, compose).commit();
                         return true;
                     case R.id.feed:
+                        binding.header.appbar.setVisibility(View.VISIBLE);
                         fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, feed).commit();
                         return true;
                     case R.id.profile:
+                        binding.header.appbar.setVisibility(View.VISIBLE);
                         fragmentManager.beginTransaction().replace(R.id.fragmentPlaceholder, profile).commit();
                         return true;
                     default:
