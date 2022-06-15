@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         compose = new ComposeFragment();
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         ProfileToolbar.Initialize(binding.header, this);
 
         binding.header.ivBanner.setOnClickListener(v -> handler.launcher.launch(Intent.createChooser(handler.onPickPhoto(), "Select Picture")));
-
+        binding.header.appbar.setExpanded(false);
         binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
 
             @Override
