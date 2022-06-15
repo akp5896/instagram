@@ -14,6 +14,7 @@ import com.parse.ParseUser;
 
 import org.parceler.Parcel;
 
+import java.util.Collections;
 import java.util.List;
 
 @ParseClassName("Post")
@@ -55,16 +56,23 @@ public class Post extends ParseObject {
     }
     public void like() {
         increment(KEY_LIKES);
-        put(KEY_LIKED, true);
+        getRelation("likedBy").add(ParseUser.getCurrentUser());
     }
 
     public void unlike() {
         increment(KEY_LIKES, -1);
-        put(KEY_LIKED, false);
+        getRelation("likedBy").remove(ParseUser.getCurrentUser());
     }
 
     public boolean getLiked() {
-        return getBoolean(KEY_LIKED);
+        ParseQuery<ParseObject> likedBy = this.getRelation("likedBy").getQuery();
+        likedBy.whereEqualTo(KEY_OBJECT_ID, ParseUser.getCurrentUser().getObjectId());
+        try {
+            return likedBy.count() > 0;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
     public Integer getLikes() {
         return getInt(KEY_LIKES);

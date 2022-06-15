@@ -30,6 +30,18 @@ public class DetailsActivity extends AppCompatActivity {
     List<Comment> comments;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+            post.fetch();
+            setLikeColor();
+            binding.tvLikes.setText(post.getLikes().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityDetailsBinding.inflate(getLayoutInflater());
