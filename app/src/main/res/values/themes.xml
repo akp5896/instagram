@@ -15,4 +15,12 @@
 
         <!-- Customize your theme here. -->
     </style>
+    <style name="counterOverride">
+        <item name="android:textColor">#FF0000</item>
+
+    </style>
+
+    <style name="counterText">
+        <item name="android:textColor">@color/design_default_color_primary</item>
+    </style>
 </resources>

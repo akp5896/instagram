@@ -6,15 +6,19 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.View;
 
+import androidx.activity.ComponentActivity;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.example.parstagram31.MainActivity;
 import com.example.parstagram31.Models.Post;
 import com.example.parstagram31.databinding.HeaderBinding;
+import com.example.parstagram31.fragments.BiographyFragment;
 import com.parse.CountCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -30,6 +34,21 @@ public class ProfileToolbar {
         activity.getSupportActionBar().setTitle("");
         setBanner(context, binding);
         setPostCount(binding);
+        try {
+            String bio = ParseUser.getCurrentUser().fetch().getString("bio");
+            binding.tvBio.setText(bio);
+            binding.tvBio.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentManager fm = activity.getSupportFragmentManager();
+                    BiographyFragment biographyFragment = BiographyFragment.newInstance(bio, binding);
+                    biographyFragment.show(fm, "fragment_compose_tweet");
+                }
+            });
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private static void setPostCount(HeaderBinding binding) {
