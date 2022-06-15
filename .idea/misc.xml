@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/Parstagram31/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/Parstagram31/app/src/main/res/drawable-v24/news_avd_v02.xml" value="0.1" />
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/Parstagram31/app/src/main/res/drawable/back.xml" value="0.25" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/Parstagram31/app/src/main/res/drawable/ic_icon.xml" value="0.1" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/Parstagram31/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/Parstagram31/app/src/main/res/drawable/ic_launcher_new_background.xml" value="0.1" />
@@ -14,6 +15,7 @@
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/Parstagram31/app/src/main/res/layout/activity_main.xml" value="0.10674157303370786" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/Parstagram31/app/src/main/res/layout/activity_profile.xml" value="0.1" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/Parstagram31/app/src/main/res/layout/activity_sign_up.xml" value="0.23020833333333332" />
+        <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/Parstagram31/app/src/main/res/layout/drawable_contur.xml" value="0.20896656534954408" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/Parstagram31/app/src/main/res/layout/fragment_blank.xml" value="0.10511651469098278" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/Parstagram31/app/src/main/res/layout/fragment_compose.xml" value="0.14722222222222223" />
         <entry key="..\:/Users/stacypopova123/AndroidStudioProjects/Parstagram31/app/src/main/res/layout/fragment_feed.xml" value="0.2210144927536232" />
