@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        compose = new ComposeFragment();
+        compose = ComposeFragment.newInstance(binding.header);
         FeedFragment feed = new FeedFragment();
         ProfileFragment profile = new ProfileFragment();
 

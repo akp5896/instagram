@@ -23,6 +23,7 @@ import com.example.parstagram31.Models.Post;
 import com.example.parstagram31.R;
 import com.example.parstagram31.Utils.CameraHandler;
 import com.example.parstagram31.databinding.FragmentComposeBinding;
+import com.example.parstagram31.databinding.HeaderBinding;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -33,6 +34,7 @@ public class ComposeFragment extends Fragment {
 
     FragmentComposeBinding binding;
     CameraHandler handler;
+    HeaderBinding header;
     private String TAG = "COMPOSE FRAGMENT";
 
     public ComposeFragment() {
@@ -74,6 +76,10 @@ public class ComposeFragment extends Fragment {
                     Log.i(TAG, "fail: " + e);
                     return;
                 }
+                header.tvPostsCount.setText(
+                        String.valueOf(
+                                Integer.parseInt(
+                                        header.tvPostsCount.getText().toString()) + 1));
                 binding.etDescription.setText(null);
                 binding.ivPhoto.setImageBitmap(null);
                 binding.pbProgressAction.setVisibility(View.INVISIBLE);
@@ -81,9 +87,9 @@ public class ComposeFragment extends Fragment {
         });
     }
 
-    public static ComposeFragment newInstance(CameraHandler cameraHandler) {
+    public static ComposeFragment newInstance(HeaderBinding header) {
         ComposeFragment fragment = new ComposeFragment();
-        fragment.handler = cameraHandler;
+        fragment.header = header;
         return  fragment;
     }
 

@@ -51,7 +51,7 @@ public class ProfileToolbar {
 
     }
 
-    private static void setPostCount(HeaderBinding binding) {
+    public static void setPostCount(HeaderBinding binding) {
         Post.countPostsByUser(new CountCallback() {
             @Override
             public void done(int count, ParseException e) {

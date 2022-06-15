@@ -17,7 +17,6 @@
         android:layout_height="wrap_content"
         android:hint="@string/description"
         android:id="@+id/etDescription"
-        android:enabled="false"
         app:layout_constraintTop_toTopOf="parent"
         />
     <androidx.appcompat.widget.AppCompatButton

@@ -49,16 +49,17 @@
                     android:layout_below="@+id/tvPostsCount"
                     android:id="@+id/tvPostsLabel"
                     />
+
                 <TextView
+                    android:id="@+id/tvBio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/fish"
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/tvBio"
-                    android:textSize="18sp"
-                    android:layout_toEndOf="@+id/ivBanner"
+                    android:minHeight="10dp"
                     android:layout_below="@+id/tvPostsLabel"
-                    />
+                    android:layout_marginTop="5dp"
+                    android:layout_toEndOf="@+id/ivBanner"
+                    android:text="@string/fish"
+                    android:textSize="18sp" />
 
             </RelativeLayout>
             <androidx.appcompat.widget.Toolbar
