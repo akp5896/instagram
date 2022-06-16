@@ -68,6 +68,12 @@ public class FeedFragment extends Fragment {
         binding.rvPosts.addOnScrollListener(scrollListener);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Post.queryPosts(getPost(), 0);
+    }
+
     private void loadNextDataFromApi(int page) {
         Post.queryPosts(getPost(), page);
         Log.d("FEED FRAGMENT", "LOADED");
@@ -80,6 +86,7 @@ public class FeedFragment extends Fragment {
                 Log.i("POST", "error has occured" + e);
                 return;
             }
+            allPosts.clear();
             allPosts.addAll(posts);
             adapter.notifyDataSetChanged();
         };

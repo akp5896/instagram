@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide;
 import com.example.parstagram31.Adapter.CommentAdapter;
 import com.example.parstagram31.Models.Comment;
 import com.example.parstagram31.Models.Post;
+import com.example.parstagram31.Utils.LikesSetup;
 import com.example.parstagram31.databinding.ActivityDetailsBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -28,18 +29,6 @@ public class DetailsActivity extends AppCompatActivity {
     ActivityDetailsBinding binding;
     Post post;
     List<Comment> comments;
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        try {
-            post.fetch();
-            setLikeColor();
-            binding.tvLikes.setText(post.getLikes().toString());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,34 +81,6 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
-        setLikeColor();
-        binding.tvLikes.setText(post.getLikes().toString());
-
-        binding.ivLike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(post.getLiked()) {
-                    post.unlike();
-                }
-                else {
-                    post.like();
-                }
-                post.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        setLikeColor();
-                        binding.tvLikes.setText(post.getLikes().toString());
-                    }
-                });
-            }
-        });
-    }
-
-    private void setLikeColor() {
-        if (post.getLiked()) {
-            binding.ivLike.setColorFilter(getResources().getColor(R.color.red));
-        } else {
-            binding.ivLike.setColorFilter(getResources().getColor(R.color.black));
-        }
+        LikesSetup.Setup(binding.likes, post, this);
     }
 }
