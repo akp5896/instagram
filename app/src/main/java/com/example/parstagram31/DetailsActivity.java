@@ -11,6 +11,7 @@ import com.example.parstagram31.Adapter.CommentAdapter;
 import com.example.parstagram31.Models.Comment;
 import com.example.parstagram31.Models.Post;
 import com.example.parstagram31.Utils.LikesSetup;
+import com.example.parstagram31.Utils.ProfileToolbar;
 import com.example.parstagram31.databinding.ActivityDetailsBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -36,6 +37,8 @@ public class DetailsActivity extends AppCompatActivity {
         binding = ActivityDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         post = Parcels.unwrap(getIntent().getParcelableExtra("post"));
+
+        ProfileToolbar.Initialize(binding.header, this);
 
         // Bind the post data to the view elements
         binding.tvDescription.setText(post.getDescription());
