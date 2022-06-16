@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.example.parstagram31.Adapter.ChatAdapter;
 import com.example.parstagram31.Adapter.CommentAdapter;
 import com.example.parstagram31.Models.Message;
+import com.example.parstagram31.Models.directs;
 import com.example.parstagram31.databinding.ActivityDmactivityBinding;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -71,21 +72,14 @@ public class DMActivity extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                         if(msgs.size() == 0) {
                             ParseUser user = ParseUser.getCurrentUser();
-                            user.getParseObject("directs").getRelation("directs").add(otherUser);
-                            otherUser.put("bio", "I play rock");
-                            otherUser.getParseObject("directs").getRelation("directs").add(user);
-                            user.getParseObject("directs").saveInBackground();
-                            otherUser.getParseObject("directs").saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if(e != null) {
-                                        Log.i("", e.toString());
-                                    }
-                                    Log.i("", "saved");
-                                }
-                            });
-                            refreshMessages();
+                            directs myDirects = (directs) user.getParseObject(directs.KEY_DIRECTS);
+                            myDirects.getRelation(directs.KEY_DIRECTS).add(otherUser);
+                            directs otherDirects = (directs) otherUser.getParseObject(directs.KEY_DIRECTS);
+                            otherDirects.getRelation(directs.KEY_DIRECTS).add(user);
+                            myDirects.saveInBackground();
+                            otherDirects.saveInBackground();
                         }
+                        refreshMessages();
                     } else {
                         Log.e(TAG, "Failed to save message", e);
                     }

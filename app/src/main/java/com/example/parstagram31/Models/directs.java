@@ -5,4 +5,6 @@ import com.parse.ParseObject;
 
 @ParseClassName("directs")
 public class directs extends ParseObject {
+    public static final String KEY_DIRECTS = "directs";
+
 }
