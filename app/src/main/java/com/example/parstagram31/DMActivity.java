@@ -1,5 +1,6 @@
 package com.example.parstagram31;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -20,9 +21,13 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.parse.livequery.ParseLiveQueryClient;
+import com.parse.livequery.SubscriptionHandling;
 
 import org.parceler.Parcels;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +60,7 @@ public class DMActivity extends AppCompatActivity {
         binding.rvMessages.setLayoutManager(linearLayoutManager);
 
         refreshMessages();
+        setupPolling();
     }
 
     private void setupMessagePosting() {
@@ -91,19 +97,7 @@ public class DMActivity extends AppCompatActivity {
 
     void refreshMessages() {
         // Construct query to execute
-        ParseQuery<Message> other = ParseQuery.getQuery(Message.class);
-        other.whereEqualTo(Message.USER_ID_KEY, otherUser);
-        other.whereEqualTo(Message.RECEIVER_KEY, ParseUser.getCurrentUser());
-
-        ParseQuery<Message> me = ParseQuery.getQuery(Message.class);
-        me.whereEqualTo(Message.USER_ID_KEY, ParseUser.getCurrentUser());
-        me.whereEqualTo(Message.RECEIVER_KEY, otherUser);
-
-        List<ParseQuery<Message>> list = new ArrayList<>();
-        list.add(me);
-        list.add(other);
-        ParseQuery<Message> query = ParseQuery.or(list);
-        query.setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
+        ParseQuery<Message> query = getMessageParseQuery();
 
         // get the latest 50 messages, order will show up newest to oldest of this group
         query.orderByDescending("createdAt");
@@ -124,6 +118,56 @@ public class DMActivity extends AppCompatActivity {
                     Log.e("message", "Error Loading Messages" + e);
                 }
             }
+        });
+    }
+
+    @NonNull
+    private ParseQuery<Message> getMessageParseQuery() {
+        ParseQuery<Message> other = ParseQuery.getQuery(Message.class);
+        other.whereEqualTo(Message.USER_ID_KEY, otherUser);
+        other.whereEqualTo(Message.RECEIVER_KEY, ParseUser.getCurrentUser());
+
+        ParseQuery<Message> me = ParseQuery.getQuery(Message.class);
+        me.whereEqualTo(Message.USER_ID_KEY, ParseUser.getCurrentUser());
+        me.whereEqualTo(Message.RECEIVER_KEY, otherUser);
+
+        List<ParseQuery<Message>> list = new ArrayList<>();
+        list.add(me);
+        list.add(other);
+        ParseQuery<Message> query = ParseQuery.or(list);
+        query.setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
+        return query;
+    }
+
+    void setupPolling() {
+        String websocketUrl = "wss://parstagram459876.b4a.io/"; // ⚠️ TYPE IN A VALID WSS:// URL HERE
+
+        ParseLiveQueryClient parseLiveQueryClient = null;
+        try {
+            parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient(new URI(websocketUrl));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        ParseQuery<Message> parseQuery = getMessageParseQuery();
+        // This query can even be more granular (i.e. only refresh if the entry was added by some other user)
+        // parseQuery.whereNotEqualTo(USER_ID_KEY, ParseUser.getCurrentUser().getObjectId());
+
+        // Connect to Parse server
+        SubscriptionHandling<Message> subscriptionHandling = parseLiveQueryClient.subscribe(parseQuery);
+
+        // Listen for CREATE events on the Message class
+        subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE, (query, object) -> {
+            msgs.add(0, object);
+
+            // RecyclerView updates need to be run on the UI thread
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    adapter.notifyDataSetChanged();
+                    binding.rvMessages.scrollToPosition(0);
+                }
+            });
         });
     }
 }
