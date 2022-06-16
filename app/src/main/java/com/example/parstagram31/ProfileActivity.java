@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.util.Log;
+import android.view.View;
 
 import com.example.parstagram31.Adapter.PostAdapter;
 import com.example.parstagram31.Models.Post;
@@ -55,6 +57,15 @@ public class ProfileActivity extends AppCompatActivity {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+
+        binding.fabDM.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i  = new Intent(ProfileActivity.this, DMActivity.class);
+                i.putExtra("other", Parcels.wrap(user));
+                startActivity(i);
+            }
+        });
     }
 
     @NonNull

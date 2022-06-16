@@ -5,7 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -16,11 +16,9 @@ import android.view.ViewGroup;
 
 import com.example.parstagram31.Adapter.PostAdapter;
 import com.example.parstagram31.Models.Post;
-import com.example.parstagram31.R;
 import com.example.parstagram31.Utils.EndlessRecyclerViewScrollListener;
 import com.example.parstagram31.databinding.FragmentFeedBinding;
 import com.parse.FindCallback;
-import com.parse.ParseException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +42,8 @@ public class FeedFragment extends Fragment {
         adapter = new PostAdapter(getActivity(), allPosts);
         binding.rvPosts.setAdapter(adapter);
         // set the layout manager on the recycler view
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        binding.rvPosts.setLayoutManager(linearLayoutManager);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
+        binding.rvPosts.setLayoutManager(gridLayoutManager);
         Post.queryPosts(getPost(), 0);
 
         binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -60,7 +58,7 @@ public class FeedFragment extends Fragment {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+        scrollListener = new EndlessRecyclerViewScrollListener(gridLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 loadNextDataFromApi(page);
