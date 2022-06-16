@@ -34,6 +34,7 @@ public class ProfileToolbar {
         activity.getSupportActionBar().setTitle("");
         setBanner(context, binding);
         setPostCount(binding);
+        binding.appbar.setExpanded(false);
         try {
             String bio = ParseUser.getCurrentUser().fetch().getString("bio");
             binding.tvBio.setText(bio);

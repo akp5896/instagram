@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
         ProfileToolbar.Initialize(binding.header, this);
 
         binding.header.ivBanner.setOnClickListener(v -> handler.launcher.launch(Intent.createChooser(handler.onPickPhoto(), "Select Picture")));
-        binding.header.appbar.setExpanded(false);
         binding.bottomNavigation.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
 
             @Override
@@ -88,32 +87,5 @@ public class MainActivity extends AppCompatActivity {
         binding.bottomNavigation.setSelectedItemId(R.id.feed);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.logout) {
-            ParseUser.logOutInBackground(new LogOutCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if(e != null) {
-                        Log.i(TAG, "Logout failed");
-                        return;
-                    }
-                    finish();
-                }
-            });
-        }
-        if(item.getItemId() == R.id.direct) {
-            FragmentManager fm = getSupportFragmentManager();
-            ViewDmListFragment viewDmListFragment = ViewDmListFragment.newInstance();
-            viewDmListFragment.show(fm, "fragment_compose_tweet");
-        }
-        return true;
-    }
 }
