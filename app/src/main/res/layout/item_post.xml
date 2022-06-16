@@ -37,7 +37,7 @@
     <ImageView
         android:id="@+id/ivImage"
         android:layout_width="wrap_content"
-        android:layout_height="250dp"
+        android:layout_height="200dp"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
@@ -46,4 +46,27 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         tools:text="trying to look hipster" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ufi_heart"
+            android:id="@+id/ivLike"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:id="@+id/tvLikes"
+            android:text="0"
+            android:layout_marginStart="5dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivLike"
+            />
+    </LinearLayout>
 </LinearLayout>

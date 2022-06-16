@@ -20,6 +20,7 @@ import com.example.parstagram31.databinding.ItemPostBinding;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
@@ -101,6 +102,34 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             binding.ivImage.setOnClickListener(getNavigationListener(post));
             binding.tvUsername.setOnClickListener(getUserListener(post));
             binding.ivProfilePicture.setOnClickListener(getUserListener(post));
+
+            try {
+                post.fetch();
+                setLikeColor(post);
+                binding.tvLikes.setText(post.getLikes().toString());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            binding.ivLike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(post.getLiked()) {
+                        post.unlike();
+                    }
+                    else {
+                        post.like();
+                    }
+                    post.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            setLikeColor(post);
+                            binding.tvLikes.setText(post.getLikes().toString());
+                        }
+                    });
+                }
+            });
+
         }
 
         @NonNull
@@ -120,5 +149,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 context.startActivity(i);
             };
         }
+
+        private void setLikeColor(Post post) {
+            if (post.getLiked()) {
+                binding.ivLike.setColorFilter(context.getResources().getColor(R.color.red));
+            } else {
+                binding.ivLike.setColorFilter(context.getResources().getColor(R.color.black));
+            }
+        }
+
     }
 }
