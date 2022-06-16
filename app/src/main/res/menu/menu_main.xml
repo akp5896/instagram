@@ -8,5 +8,10 @@
         android:icon="@drawable/ic_logout"
         android:title="@string/logout"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/direct"
+        android:icon="@drawable/ufi_new_direct"
+        android:title="@string/dm"
+        app:showAsAction="ifRoom" />
 
 </menu>

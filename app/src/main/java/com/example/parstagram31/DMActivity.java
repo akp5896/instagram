@@ -47,7 +47,6 @@ public class DMActivity extends AppCompatActivity {
 
         msgs = new ArrayList<>();
 
-        final String userId = ParseUser.getCurrentUser().getObjectId();
         adapter = new ChatAdapter(DMActivity.this, msgs);
         binding.rvMessages.setAdapter(adapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -58,28 +57,41 @@ public class DMActivity extends AppCompatActivity {
     }
 
     private void setupMessagePosting() {
-        binding.btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String message = binding.etInput.getText().toString();
-                ParseObject msgObject = ParseObject.create("Message");
-                msgObject.put(Message.USER_ID_KEY, ParseUser.getCurrentUser());
-                msgObject.put(Message.BODY_KEY, message);
-                msgObject.put(Message.RECEIVER_KEY, otherUser);
-                msgObject.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            Toast.makeText(DMActivity.this, "Successfully created message on Parse",
-                                    Toast.LENGTH_SHORT).show();
+        binding.btnSend.setOnClickListener(v -> {
+            String message = binding.etInput.getText().toString();
+            ParseObject msgObject = ParseObject.create("Message");
+            msgObject.put(Message.USER_ID_KEY, ParseUser.getCurrentUser());
+            msgObject.put(Message.BODY_KEY, message);
+            msgObject.put(Message.RECEIVER_KEY, otherUser);
+            msgObject.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e == null) {
+                        Toast.makeText(DMActivity.this, "Successfully created message on Parse",
+                                Toast.LENGTH_SHORT).show();
+                        if(msgs.size() == 0) {
+                            ParseUser user = ParseUser.getCurrentUser();
+                            user.getParseObject("directs").getRelation("directs").add(otherUser);
+                            otherUser.put("bio", "I play rock");
+                            otherUser.getParseObject("directs").getRelation("directs").add(user);
+                            user.getParseObject("directs").saveInBackground();
+                            otherUser.getParseObject("directs").saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if(e != null) {
+                                        Log.i("", e.toString());
+                                    }
+                                    Log.i("", "saved");
+                                }
+                            });
                             refreshMessages();
-                        } else {
-                            Log.e(TAG, "Failed to save message", e);
                         }
+                    } else {
+                        Log.e(TAG, "Failed to save message", e);
                     }
-                });
-                binding.etInput.setText(null);
-            }
+                }
+            });
+            binding.etInput.setText(null);
         });
     }
 

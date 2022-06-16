@@ -22,9 +22,11 @@ import com.example.parstagram31.Utils.CameraHandler;
 import com.example.parstagram31.Utils.GalleryHandler;
 import com.example.parstagram31.Utils.ProfileToolbar;
 import com.example.parstagram31.databinding.ActivityMainBinding;
+import com.example.parstagram31.fragments.BiographyFragment;
 import com.example.parstagram31.fragments.ComposeFragment;
 import com.example.parstagram31.fragments.FeedFragment;
 import com.example.parstagram31.fragments.ProfileFragment;
+import com.example.parstagram31.fragments.ViewDmListFragment;
 import com.google.android.material.navigation.NavigationBarView;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
@@ -106,7 +108,11 @@ public class MainActivity extends AppCompatActivity {
                     finish();
                 }
             });
-
+        }
+        if(item.getItemId() == R.id.direct) {
+            FragmentManager fm = getSupportFragmentManager();
+            ViewDmListFragment viewDmListFragment = ViewDmListFragment.newInstance();
+            viewDmListFragment.show(fm, "fragment_compose_tweet");
         }
         return true;
     }
