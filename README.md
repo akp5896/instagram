@@ -53,7 +53,7 @@ Please list two areas of the assignment you'd like to **discuss further with you
 Here's a walkthrough of implemented user stories:
 
 <img src='https://github.com/akp5896/instagram/blob/master/walk3.gif' title='walk 3' width='400' alt='Video Walkthrough' />
-<img heart2.gif' title='like with animation' width='400' alt='Video Walkthrough' />
+<img src='https://github.com/akp5896/instagram/blob/master/heart2.gif' title='like with animation' width='400' alt='Video Walkthrough' />
 GIF created with Licecap.
 
 ## Credits
