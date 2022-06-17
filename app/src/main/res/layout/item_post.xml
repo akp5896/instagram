@@ -33,13 +33,8 @@
         android:layout_height="wrap_content"
         android:text="TextView"
         tools:text="rahul" />
-
-    <ImageView
-        android:id="@+id/ivImage"
-        android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        tools:srcCompat="@tools:sample/avatars" />
-
+    <include layout="@layout/likable_image"
+        android:id="@+id/likable"/>
     <TextView
         android:id="@+id/tvDescription"
         android:layout_width="match_parent"

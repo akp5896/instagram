@@ -17,21 +17,26 @@ public class LikesSetup {
         binding.ivLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(post.getLiked()) {
-                    post.unlike();
-                }
-                else {
-                    post.like();
-                }
-                post.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        setLikeColor(binding, post, context);
-                    }
-                });
+                onLikeClick(post, binding, context);
             }
         });
     }
+
+    public static void onLikeClick(Post post, LikesBinding binding, Context context) {
+        if(post.getLiked()) {
+            post.unlike();
+        }
+        else {
+            post.like();
+        }
+        post.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                setLikeColor(binding, post, context);
+            }
+        });
+    }
+
     public static void setLikeColor(LikesBinding binding, Post post, Context context) {
         binding.tvLikes.setText(post.getLikes().toString());
         if (post.getLiked()) {

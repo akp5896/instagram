@@ -2,9 +2,14 @@ package com.example.parstagram31.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,16 +17,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.parstagram31.DetailsActivity;
-import com.example.parstagram31.MainActivity;
 import com.example.parstagram31.Models.Post;
 import com.example.parstagram31.ProfileActivity;
 import com.example.parstagram31.R;
+import com.example.parstagram31.TapView;
+import com.example.parstagram31.Utils.GestureListener;
 import com.example.parstagram31.Utils.LikesSetup;
 import com.example.parstagram31.databinding.ItemPostBinding;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
@@ -82,11 +86,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             binding.tvTime.setText(post.getCreatedAt().toString());
             ParseFile image = post.getImage();
             if (image != null) {
-                binding.ivImage.setVisibility(View.VISIBLE);
-                Glide.with(context).load(image.getUrl()).into(binding.ivImage);
+                binding.likable.ivImage.setVisibility(View.VISIBLE);
+                Glide.with(context).load(image.getUrl()).into(binding.likable.ivImage);
             }
             else {
-                binding.ivImage.setVisibility(View.GONE);
+                binding.likable.ivImage.setVisibility(View.GONE);
             }
 
             ParseFile parseFile = null;
@@ -100,13 +104,19 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             }
 
             binding.tvDescription.setOnClickListener(getNavigationListener(post));
-            binding.ivImage.setOnClickListener(getNavigationListener(post));
+            //binding.ivImage.setOnClickListener(getNavigationListener(post));
             binding.tvUsername.setOnClickListener(getUserListener(post));
             binding.ivProfilePicture.setOnClickListener(getUserListener(post));
 
+
             LikesSetup.Setup(binding.likes, post, context);
 
+            binding.likable.ivImage.
+                    setGestureDetector(
+                            new GestureDetector(context,
+                                    new GestureListener(context, post, binding.likable, binding.likes)));
         }
+
 
         @NonNull
         private View.OnClickListener getUserListener(Post post) {
