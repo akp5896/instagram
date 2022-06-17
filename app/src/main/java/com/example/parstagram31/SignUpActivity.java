@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.parstagram31.Models.directs;
 import com.example.parstagram31.databinding.ActivitySignUpBinding;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -37,9 +38,18 @@ public class SignUpActivity extends AppCompatActivity {
                         Log.i("SIGN UP ACTIVTY", e.toString());
                         return;
                     }
+                    directs directs = new directs();
+                    directs.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            user.put("directs", directs);
+                            user.saveInBackground();
+                        }
+                    });
                     Toast.makeText(SignUpActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
                 });
+
             }
         });
     }
