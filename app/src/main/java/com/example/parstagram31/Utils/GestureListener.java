@@ -1,6 +1,7 @@
 package com.example.parstagram31.Utils;
 
 import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.view.ViewAnimationUtils;
 
 import com.example.parstagram31.DetailsActivity;
 import com.example.parstagram31.Models.Post;
+import com.example.parstagram31.R;
 import com.example.parstagram31.databinding.LikableImageBinding;
 import com.example.parstagram31.databinding.LikesBinding;
 
@@ -27,6 +29,7 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener {
     Post post;
     LikableImageBinding binding;
     LikesBinding likes;
+    Animator revealBounceAnimator;
 
     public GestureListener() {
     }
@@ -36,6 +39,14 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener {
         this.post = post;
         this.binding = binding;
         this.likes = likes;
+        setupRevealBounceAnimator();
+    }
+
+    private void setupRevealBounceAnimator() {
+        revealBounceAnimator = AnimatorInflater.loadAnimator(context, R.animator.reveal);
+
+        revealBounceAnimator.setTarget(binding.ivHeart);
+
     }
 
     @Override
@@ -51,22 +62,9 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener {
         Log.d("Double Tap", "Tapped at: (" + x + "," + y + ")");
         binding.ivHeart.setVisibility(View.VISIBLE);
         LikesSetup.onLikeClick(post, likes, context);
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    if (Looper.myLooper() == null)
-                    {
-                        Looper.prepare();
-                    }
-                    enterReveal();
-                    Thread.sleep(700);
-                    exitReveal();
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
+        if(!revealBounceAnimator.isStarted()) {
+            revealBounceAnimator.start();
+        }
         return true;
     }
 
