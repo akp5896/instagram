@@ -52,10 +52,9 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://github.com/akp5896/instagram/blob/master/walk3.gif' title='Video Walkthrough' width='600' alt='Video Walkthrough' />
 
-GIF created with [Kap](https://getkap.co/).
-
+GIF created with Licecap.
 ## Credits
 
 List an 3rd party libraries, icons, graphics, or other assets you used in your app.
