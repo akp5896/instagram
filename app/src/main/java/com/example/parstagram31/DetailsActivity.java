@@ -1,9 +1,14 @@
 package com.example.parstagram31;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
@@ -13,7 +18,9 @@ import com.example.parstagram31.Models.Post;
 import com.example.parstagram31.Utils.LikesSetup;
 import com.example.parstagram31.Utils.ProfileToolbar;
 import com.example.parstagram31.databinding.ActivityDetailsBinding;
+import com.example.parstagram31.fragments.ViewDmListFragment;
 import com.parse.FindCallback;
+import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -27,6 +34,7 @@ import java.util.List;
 
 public class DetailsActivity extends AppCompatActivity {
 
+    private static final String TAG = "DETAILS TAG";
     ActivityDetailsBinding binding;
     Post post;
     List<Comment> comments;
@@ -85,5 +93,34 @@ public class DetailsActivity extends AppCompatActivity {
         });
 
         LikesSetup.Setup(binding.likes, post, this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.logout) {
+            ParseUser.logOutInBackground(new LogOutCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if(e != null) {
+                        Log.i(TAG, "Logout failed");
+                        return;
+                    }
+                    finish();
+                }
+            });
+        }
+        if(item.getItemId() == R.id.direct) {
+            FragmentManager fm = getSupportFragmentManager();
+            ViewDmListFragment viewDmListFragment = ViewDmListFragment.newInstance();
+            viewDmListFragment.show(fm, "fragment_compose_tweet");
+        }
+        return true;
     }
 }
