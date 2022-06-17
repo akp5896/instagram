@@ -2,6 +2,8 @@ package com.example.parstagram31.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResult;
@@ -22,6 +24,7 @@ import com.example.parstagram31.MainActivity;
 import com.example.parstagram31.Models.Post;
 import com.example.parstagram31.R;
 import com.example.parstagram31.Utils.CameraHandler;
+import com.example.parstagram31.Utils.GalleryHandler;
 import com.example.parstagram31.databinding.FragmentComposeBinding;
 import com.example.parstagram31.databinding.HeaderBinding;
 import com.parse.ParseException;
@@ -36,6 +39,8 @@ public class ComposeFragment extends Fragment {
     CameraHandler handler;
     HeaderBinding header;
     private String TAG = "COMPOSE FRAGMENT";
+    private GalleryHandler galleryHandler;
+    Bitmap selectedImage = null;
 
     public ComposeFragment() {
         // Required empty public constructor
@@ -60,6 +65,11 @@ public class ComposeFragment extends Fragment {
         else {
             binding.btnTakePhoto.setOnClickListener(v -> handler.launcher.launch(Intent.createChooser(handler.launchCamera(), "Select Picture")));
         }
+        if(galleryHandler == null) {
+            Log.e("COMPOSE FRAGMENT", "No handler attached! Gallery opportunities disabled.");
+        } else {
+            binding.btnUpload.setOnClickListener(v -> galleryHandler.launcher.launch(Intent.createChooser(galleryHandler.onPickPhoto(), "Select Picture")));
+        }
     }
 
     private void savePost(String description, ParseUser currentUser) {
@@ -67,7 +77,7 @@ public class ComposeFragment extends Fragment {
         Post post = new Post();
         post.setDescription(description);
         post.setUser(currentUser);
-        post.setImage(CameraHandler.bitmapToParseFile(handler.getImageToUpload()));
+        post.setImage(CameraHandler.bitmapToParseFile(selectedImage));
         post.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -114,7 +124,24 @@ public class ComposeFragment extends Fragment {
             public void onActivityResult(ActivityResult result) {
                 if (result.getResultCode() == Activity.RESULT_OK) {
                     handler.onActivityResult();
+                    selectedImage = handler.getImageToUpload();
                     binding.ivPhoto.setImageBitmap(handler.getImageToUpload());
+                } else {
+                    Toast.makeText(getActivity(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+    }
+
+    @NonNull
+    public ActivityResultCallback<ActivityResult> ComposeGalleryCallback() {
+        return new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Uri photoUri = result.getData().getData();
+                    selectedImage = GalleryHandler.loadFromUri(photoUri, getActivity());
+                    binding.ivPhoto.setImageBitmap(selectedImage);
                 } else {
                     Toast.makeText(getActivity(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
                 }
@@ -124,5 +151,9 @@ public class ComposeFragment extends Fragment {
 
     public void setCameraHandler(CameraHandler cameraHandler) {
         this.handler = cameraHandler;
+    }
+
+    public void setGalleryHandler(GalleryHandler galleryHandler) {
+        this.galleryHandler = galleryHandler;
     }
 }

@@ -78,7 +78,7 @@ public class CameraHandler {
     }
 
     public Bitmap onActivityResult() {
-        Uri takenPhotoUri = Uri.fromFile(getPhotoFileUri(photoFileName));
+        //Uri takenPhotoUri = Uri.fromFile(getPhotoFileUri(photoFileName));
         Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
         Bitmap resizedBitmap = BitmapScaler.scaleToFitWidth(takenImage, 300);
         imageToUpload = resizedBitmap;

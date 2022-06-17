@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     GalleryHandler handler;
     ComposeFragment compose;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         handler = new GalleryHandler(this, ProfileToolbar.getHeaderCallback(binding.header, this));
 
         compose.setCameraHandler(new CameraHandler(this, compose.ComposeCallback()));
+        compose.setGalleryHandler(new GalleryHandler(this, compose.ComposeGalleryCallback()));
 
 
         ProfileToolbar.Initialize(binding.header, this);
