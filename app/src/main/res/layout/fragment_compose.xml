@@ -33,6 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnTakePhoto"
+        android:src="@drawable/camera_shadow_fill"
         android:id="@+id/ivPhoto"
         />
     <androidx.appcompat.widget.AppCompatButton

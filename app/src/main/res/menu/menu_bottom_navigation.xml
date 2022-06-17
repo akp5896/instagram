@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
     <item
         android:id="@+id/feed"
         android:enabled="true"
-        android:icon="?attr/actionModePasteDrawable"
+        android:icon="@drawable/home"
         android:title="@string/feed"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/compose"
         android:enabled="true"
-        android:icon="@android:drawable/ic_menu_edit"
+        android:icon="@drawable/compose"
         android:title="@string/compose"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/profile"
         android:enabled="true"
-        android:icon="@android:drawable/ic_menu_myplaces"
+        android:icon="@drawable/profile"
         android:title="@string/profile"
         app:showAsAction="ifRoom" />
 </menu>

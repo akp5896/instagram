@@ -5,13 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/nav_logo_whiteout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/ivLogo"
+        />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivLogo"
         android:id="@+id/etLogin"
         android:autofillHints="@string/enter_login"
         android:inputType="text"
+        android:hint="Login"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         />
@@ -21,6 +31,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/etLogin"
         android:id="@+id/etPass"
+        android:hint="Password"
         android:autofillHints="@string/enter_login"
         android:inputType="textPassword"
         android:layout_marginStart="20dp"
@@ -32,6 +43,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:id="@+id/btnLogin"
+        android:backgroundTint="@color/blue"
         app:layout_constraintTop_toBottomOf="@+id/etPass"
         android:text="@string/login"
         />
@@ -42,9 +54,9 @@
         app:layout_constraintTop_toBottomOf="@+id/btnLogin"
         android:id="@+id/tvSignUp"
         android:autofillHints="@string/enter_login"
-        android:text="SignUp"
+        android:text="@string/sign_up_text"
         android:gravity="center"
-        android:textColor="@color/black"
+        android:textColor="@color/blue"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         />
